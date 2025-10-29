@@ -1,16 +1,48 @@
 ---
-
+import BaseLayout from "../layouts/Base.astro";
+// import { Image } from "astro:assets";
+// import heroImage from "../assets/hero/hero1.jpg";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<!-- image={heroImage.src} -->
+<BaseLayout
+  title="Welcome to Our Cultural Organization"
+  description="Connecting people through art, heritage, and community. Explore our activities and upcoming events."
+  url="https://example.org/"
+>
+  <section class="relative">
+    <div class="relative overflow-hidden">
+      <!-- <Image -->
+      <!--   src={heroImage} -->
+      <!--   alt="Cultural celebration" -->
+      <!--   format="webp" -->
+      <!--   class="w-full h-[80vh] object-cover" -->
+      <!-- /> -->
+      <div
+        class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4"
+      >
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">
+          Celebrating Culture and Community
+        </h1>
+        <p class="text-lg max-w-2xl">
+          Join us in preserving and promoting cultural heritage through events,
+          education, and shared experiences.
+        </p>
+        <a
+          href="/events"
+          class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded"
+          >View Upcoming Events</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
+    <p class="text-lg text-gray-700 mx-auto max-w-3xl">
+      We believe in the power of culture to connect generations. Our mission is
+      to create meaningful experiences that bring communities together through
+      art, heritage, and storytelling.
+    </p>
+  </section>
+</BaseLayout>

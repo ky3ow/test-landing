@@ -1,0 +1,48 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css"
+
+const {
+  title = "Cultural Organization",
+  description = "Celebrating culture, art, and community through events and history.",
+  // image = "/assets/hero/hero1.jpg",
+  url = "https://example.org",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={Astro.currentLocale ?? "en"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- SEO / Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <!-- <meta property="og:image" content={image} /> -->
+    <meta property="og:url" content={url} />
+
+    <!-- Twitter Cards -->
+    <!-- <meta name="twitter:card" content="summary_large_image" /> -->
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <!-- <meta name="twitter:image" content={image} /> -->
+
+    <link rel="canonical" href={url} />
+  </head>
+
+  <body class="font-sans bg-gray-50 text-gray-800">
+    <Header />
+    <main class="min-h-screen">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
