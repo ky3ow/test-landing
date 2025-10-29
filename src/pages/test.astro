@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/Base.astro";
+import { Image } from "astro:assets";
+import { getEntry, render } from "astro:content";
+
+const testData = await getEntry("pages", "test")
+if (!testData) {
+	throw new Error('Could not find test data')
+}
+const { Content } = await render(testData);
+
+---
+
+<BaseLayout
+  title="Welcome to Our Cultural Organization"
+  description="Connecting people through art, heritage, and community. Explore our activities and upcoming events."
+  url="https://example.org/"
+>
+  <section class="relative">
+    <div class="relative overflow-hidden">
+	{
+		testData?.data.cover &&
+		<Image
+		  src={testData.data.cover}
+		  alt="Cultural celebration"
+		  format="webp"
+		  class="w-full h-[80vh] object-cover"
+		/>
+	}
+      <div
+        class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4"
+      >
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">
+			{testData?.data.title}
+        </h1>
+        <p class="text-lg max-w-2xl">
+			<Content />
+        </p>
+        <a
+          href="/events"
+          class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded"
+          >View Upcoming Events</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-3xl font-bold mb-6">Our2 Mission</h2>
+    <p class="text-lg text-gray-700 mx-auto max-w-3xl">
+      We believe in the power of culture to connect generations. Our mission is
+      to create meaningful experiences that bring communities together through
+      art, heritage, and storytelling.
+    </p>
+  </section>
+</BaseLayout>
