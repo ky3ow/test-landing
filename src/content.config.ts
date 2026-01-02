@@ -11,7 +11,12 @@ const pages = defineCollection({
 	schema: ({ image }: SchemaContext) => z.object({
 		title: z.string(),
 		description: z.string(),
-		cover: image().optional()
+		body: z.string().optional(),
+		cover: image().optional(),
+		members: z.array(z.object({
+			name: z.string(),
+			portrait: image()
+		})).optional()
 	})
 })
 
