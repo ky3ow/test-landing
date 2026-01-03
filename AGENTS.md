@@ -4,6 +4,34 @@ This file provides guidelines and commands for agentic coding tools working in t
 
 **Important Agent Rule**: Do not ever run the dev server yourself (e.g., avoid `bun run dev`). Only run it if explicitly requested by the user.
 
+## Content Collections API Usage
+
+**When to Use `getEntry()` vs `getCollection()`:**
+- Use `getEntry()` when fetching a single, known file by ID (e.g., `home.md`, `about.md`)
+- Use `getCollection()` when fetching multiple entries (e.g., all blog posts, all pages)
+
+**Null/Undefined Guard:**
+- Always check if `getEntry()` returns `undefined` and throw a descriptive error
+- `getEntry()` can return `undefined` if the entry doesn't exist
+
+**Render API:**
+- Use the `render()` function (not `.rendered` property) to get the Content component
+- Import `render` from `astro:content`
+- Call `await render(entry)` which returns `{ Content, headings, remarkPluginFrontmatter }`
+
+Example:
+```typescript
+import { getEntry, render } from 'astro:content';
+
+const entry = await getEntry('pages', 'home.md');
+
+if (!entry) {
+  throw new Error('Entry not found');
+}
+
+const { Content } = await render(entry);
+```
+
 ## Build, Lint, and Test Commands
 
 ### Build Commands
