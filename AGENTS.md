@@ -2,6 +2,8 @@
 
 This file provides guidelines and commands for agentic coding tools working in this Astro-based static site repository. It includes build/lint/test commands, code style guidelines, and any applicable Cursor or Copilot rules. Follow these to maintain consistency and quality.
 
+**Important Agent Rule**: Do not ever run the dev server yourself (e.g., avoid `bun run dev`). Only run it if explicitly requested by the user.
+
 ## Build, Lint, and Test Commands
 
 ### Build Commands
