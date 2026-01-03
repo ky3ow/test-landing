@@ -1,9 +1,21 @@
 menu_items:
-  - id: '1234'
-    displayName: '123'
-    link: /about
-    parent: ''
-  - id: '123'
-    displayName: AAA
-    link: /
-    parent: ''
+  - id: "home"
+    displayName: "Home"
+    link: "/"
+  - id: "about"
+    displayName: "About"
+    link: "/about"
+  - id: "events"
+    displayName: "Events"
+    link: "/events"
+  - id: "events-concerts"
+    displayName: "Upcoming Concerts"
+    link: "/events/concerts"
+    parent: "events"
+  - id: "events-workshops"
+    displayName: "Workshops"
+    link: "/events/workshops"
+    parent: "events"
+  - id: "contact"
+    displayName: "Contact"
+    link: "/contact"

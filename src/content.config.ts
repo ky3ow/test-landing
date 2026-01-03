@@ -4,7 +4,7 @@ import {
 	reference,
 	z,
 } from "astro:content";
-import { glob } from "astro/loaders";
+import { glob, file } from "astro/loaders";
 
 const pages = defineCollection({
 	loader: glob({ pattern: "**/*.md", base: "./src/content/pages/" }),
@@ -22,4 +22,14 @@ const pages = defineCollection({
 	})
 })
 
-export const collections = { pages }
+const navigation = defineCollection({
+	loader: file("src/content/navigation.yml"),
+	schema: z.object({
+		id: z.string().optional(),
+		displayName: z.string().optional(),
+		link: z.string().optional(),
+		parent: z.string().optional()
+	})
+})
+
+export const collections = { pages, navigation }
