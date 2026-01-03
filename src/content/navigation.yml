@@ -1,0 +1,9 @@
+menu_items:
+  - id: '1234'
+    displayName: '123'
+    link: /about
+    parent: ''
+  - id: '123'
+    displayName: AAA
+    link: /
+    parent: ''
