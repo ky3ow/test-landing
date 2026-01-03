@@ -6,7 +6,6 @@ import "../styles/global.css"
 const {
   title = "Cultural Organization",
   description = "Celebrating culture, art, and community through events and history.",
-  // image = "/assets/hero/hero1.jpg",
   url = "https://example.org",
 } = Astro.props;
 ---
@@ -40,7 +39,7 @@ const {
 
   <body class="font-sans bg-gray-50 text-gray-800">
     <Header />
-    <main class="min-h-screen">
+    <main class="min-h-screen font-display prose-headings:font-headings">
       <slot />
     </main>
     <Footer />
