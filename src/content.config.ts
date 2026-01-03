@@ -16,7 +16,9 @@ const pages = defineCollection({
 		members: z.array(z.object({
 			name: z.string(),
 			portrait: image()
-		})).optional()
+		})).optional(),
+		cta_text: z.string().optional(),
+		cta_link: z.string().optional()
 	})
 })
 

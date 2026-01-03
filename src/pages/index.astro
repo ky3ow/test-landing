@@ -1,48 +1,46 @@
 ---
 import BaseLayout from "../layouts/Base.astro";
-// import { Image } from "astro:assets";
-// import heroImage from "../assets/hero/hero1.jpg";
+import { getEntry, render } from "astro:content";
+
+const homePage = await getEntry("pages", "home");
+
+if (!homePage) {
+  throw new Error("Home page content not found. Please ensure src/content/pages/home.md exists.");
+}
+
+const { title, description, cover, cta_text, cta_link } = homePage.data;
+const { Content } = await render(homePage);
 ---
 
-<!-- image={heroImage.src} -->
 <BaseLayout
-  title="Welcome to Our Cultural Organization"
-  description="Connecting people through art, heritage, and community. Explore our activities and upcoming events."
-  url="https://example.org/"
+  title={title}
+  description={description.replace(/\n/g, " ")}
 >
-  <section class="relative">
-    <div class="relative overflow-hidden">
-      <!-- <Image -->
-      <!--   src={heroImage} -->
-      <!--   alt="Cultural celebration" -->
-      <!--   format="webp" -->
-      <!--   class="w-full h-[80vh] object-cover" -->
-      <!-- /> -->
-      <div
-        class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4"
-      >
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">
-          Celebrating Culture and Community
+  <section>
+    <div class="relative overflow-hidden h-[80vh]">
+      {cover && (
+        <img
+          src={cover.src}
+          alt="Hero background"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
+      <div class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-4">
+        <h1 class="font-serif text-4xl md:text-6xl font-bold mb-6 max-w-4xl">
+          {title}
         </h1>
-        <p class="text-lg max-w-2xl">
-          Join us in preserving and promoting cultural heritage through events,
-          education, and shared experiences.
-        </p>
-        <a
-          href="/events"
-          class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded"
-          >View Upcoming Events</a
-        >
+        <div class="prose prose-invert prose-lg max-w-3xl mb-8">
+          <Content />
+        </div>
+        {cta_link && cta_text && (
+          <a
+            href={cta_link}
+            class="mt-8 inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+          >
+            {cta_text}
+          </a>
+        )}
       </div>
     </div>
-  </section>
-
-  <section class="max-w-6xl mx-auto px-6 py-16 text-center">
-    <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
-    <p class="text-lg text-gray-700 mx-auto max-w-3xl">
-      We believe in the power of culture to connect generations. Our mission is
-      to create meaningful experiences that bring communities together through
-      art, heritage, and storytelling.
-    </p>
   </section>
 </BaseLayout>
