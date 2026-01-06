@@ -1,0 +1,51 @@
+---
+import { getEntry } from "astro:content";
+
+type NavItemData = {
+	id: string;
+	displayName: string;
+	link: string;
+	parent?: string;
+	children?: NavItemData[];
+}
+
+const navEntry = await getEntry("navigation", "menu_items");
+
+if (!navEntry) {
+	throw new Error("Navigation data not found. Please ensure src/content/navigation.yml exists.");
+}
+
+const allItems = navEntry.data;
+
+// Create navigation hierarchy from flat structure
+function buildHierarchy(items: NavItemData[]): NavItemData[] {
+	const itemMap = new Map(items.map(item => [item.id, item]));
+	const idSet = new Set(items.map(item => item.id));
+
+	items.forEach(item => {
+		const parentItem = item.parent ? itemMap.get(item.parent) : null;
+		if (parentItem) {
+			parentItem.children = parentItem.children || [];
+			parentItem.children.push(item);
+		}
+	});
+
+	if (idSet.size !== itemMap.size) {
+		throw new Error('Duplicate navigation IDs detected. Each ID must be unique.');
+	}
+
+	return items.filter(item => !item.parent);
+}
+
+const topLevelItems = buildHierarchy(allItems);
+---
+
+<header>
+	<nav class="bg-white shadow-sm">
+		<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+			<a href="/" class="flex items-center gap-2">
+				<span class="font-serif text-lg">Cultural Org</span>
+			</a>
+		</div>
+	</nav>
+</header>

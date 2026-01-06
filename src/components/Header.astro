@@ -1,13 +1,60 @@
-<nav class="bg-white shadow-sm">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="/" class="flex items-center gap-2">
-      <span class="font-bold text-lg">Cultural Org</span>
-    </a>
-    <ul class="flex gap-6 text-gray-700">
-      <li><a href="/about" class="hover:text-indigo-500">About</a></li>
-      <li><a href="/test" class="hover:text-indigo-500">Test</a></li>
-      <li><a href="/events" class="hover:text-indigo-500">Events</a></li>
-      <li><a href="/contact" class="hover:text-indigo-500">Contact</a></li>
-    </ul>
-  </div>
-</nav>
+---
+import { getEntry } from "astro:content";
+import NavItem from "./NavItem.astro";
+
+const navEntry = await getEntry("navigation", "menu_items");
+
+if (!navEntry) {
+	throw new Error("Navigation data not found. Please ensure src/content/navigation.yml exists.");
+}
+
+const menu_items = navEntry.data;
+
+// Create navigation hierarchy from flat structure (no mutation across renders)
+function buildHierarchy(items: any[]): any[] {
+	const raw = items.map(it => ({
+		id: it.id,
+		displayName: it.displayName,
+		link: it.link,
+		parent: it.parent,
+		children: [] as any[]
+	}));
+	const itemMap = new Map(raw.map(it => [it.id, it]));
+
+	raw.forEach(it => {
+		if (it.parent) {
+			const parent = itemMap.get(it.parent);
+			if (parent) {
+				parent.children = parent.children || [];
+				parent.children.push(it);
+			} else {
+				throw new Error(`Navigation item '${it.id}' has invalid parent reference '${it.parent}'. Parent does not exist.`);
+			}
+		}
+	});
+
+	const idSet = new Set(raw.map(it => it.id));
+	if (idSet.size !== raw.length) {
+		throw new Error('Duplicate navigation IDs detected. Each ID must be unique.');
+	}
+	return raw.filter(it => !it.parent);
+}
+
+const topLevelItems = buildHierarchy(menu_items);
+---
+
+<header>
+	<nav class="bg-white shadow-sm">
+		<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+			<a href="/" class="flex items-center gap-2">
+				<span class="font-serif font-bold text-lg">Cultural Org</span>
+			</a>
+
+			<ul class="flex gap-6">
+				{topLevelItems.map((item) => (
+					<NavItem item={item} />
+				))}
+			</ul>
+		</div>
+	</nav>
+</header>
