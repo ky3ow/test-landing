@@ -24,12 +24,12 @@ const pages = defineCollection({
 
 const navigation = defineCollection({
 	loader: file("src/content/navigation.yml"),
-	schema: z.object({
+	schema: z.array(z.object({
 		id: z.string().optional(),
 		displayName: z.string().optional(),
 		link: z.string().optional(),
 		parent: z.string().optional()
-	})
+	}))
 })
 
 export const collections = { pages, navigation }
